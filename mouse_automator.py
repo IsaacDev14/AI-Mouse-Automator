@@ -2,30 +2,28 @@
 import pyautogui
 import time
 import random
+import config
 
 def main():
-    # Set PyAutoGUI pause for safety
     pyautogui.PAUSE = 0.5
     pyautogui.FAILSAFE = True
 
     print("Starting MouseAutomator. Move mouse to upper-left corner to stop.")
-    time.sleep(5)  # Give user time to prepare
+    time.sleep(5)
 
     screen_width, screen_height = pyautogui.size()
 
     try:
         while True:
-            # Move mouse to random position
             x = random.randint(0, screen_width)
             y = random.randint(0, screen_height)
             pyautogui.moveTo(x, y, duration=0.5)
 
-            # Random scroll
-            scroll_amount = random.choice([100, -100])
+            scroll_amount = random.choice([config.SCROLL_AMOUNT, -config.SCROLL_AMOUNT])
             pyautogui.scroll(scroll_amount)
 
             print(f"Moved to ({x}, {y}) and scrolled {'up' if scroll_amount > 0 else 'down'}")
-            time.sleep(10)  # Wait 10 seconds
+            time.sleep(config.INTERVAL_SECONDS)
 
     except pyautogui.FailSafeException:
         print("Script stopped by moving mouse to upper-left corner.")
